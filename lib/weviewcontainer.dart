@@ -21,7 +21,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
 
   @override
   Widget build(BuildContext context) {
-    String url = getSelectedUrl(_data);
+    // String url = getSelectedUrl(_data)??"http://";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryLightColor1,
@@ -33,7 +33,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
             child: WebView(
               key: _key,
               javascriptMode: JavascriptMode.unrestricted,
-              initialUrl: url,
+              initialUrl: getSelectedUrl(_data)??"http://",
             ),
           ),
         ],
@@ -42,13 +42,16 @@ class _WebViewContainerState extends State<WebViewContainer> {
   }
 
   String getSelectedUrl(Datum data) {
-    String url;
-    for (int i = 0; i < Globle.data.length; i++) {
-      if (Globle.data[i]['gr_category'].toString() == _data.id.toString()) {
-        url = Globle.data[i]['gr_url'];
-        break;
+    String url="";
+
+      if (Globle.data!=null) {
+        for (int i = 0; i < Globle.data.length; i++) {
+          if (Globle.data[i]['gr_category'].toString() == _data.id.toString()) {
+            url = Globle.data[i]['gr_url'];
+            break;
+          }
+        }
       }
-    }
 
     return url;
   }

@@ -28,5 +28,5 @@ class Globle {
   static String userId ='';
   static String password ='';
 
-  static List<dynamic> data;
+  static List<dynamic> data=List.empty();
 }

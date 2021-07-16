@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "IoT",
+                    "Telematics",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
@@ -194,6 +194,8 @@ class _BodyState extends State<Body> {
       jsonResponse = json.decode(response.body);
       if (jsonResponse != null) {
         Map<String, dynamic> map = json.decode(response.body);
+        print(map["data"]);
+        Globle.data =map["data"];
         Future.delayed(Duration(seconds: 2)).then((value) {
           pr.hide().whenComplete(() async {
             if (_isRembemerMe) {
@@ -207,7 +209,7 @@ class _BodyState extends State<Body> {
               prefs.setString('password', "");
               prefs.setBool('check', _isRembemerMe);
             }
-            Globle.data = map["data"];
+
             Navigator.of(context).pushReplacement(CupertinoPageRoute(
                 builder: (BuildContext context) => NavigationDrawer()));
           });

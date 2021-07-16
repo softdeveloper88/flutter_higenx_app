@@ -21,7 +21,7 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
-  final appTitle = 'IoT Solution';
+  final appTitle = 'Telematics Solution';
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("IoT Data"),
+          title: Text("Telematics Solution"),
           elevation: 0,
           backgroundColor: kPrimaryLightColor1,
         ),
@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             CupertinoPageRoute(
                                                 builder:
                                                     (BuildContext context) =>
-                                                        WebViewContainer(
+                                                         WebViewContainer(
                                                             snapshot.data.data[index])));
                                         print(Globle.driver);
                                       });

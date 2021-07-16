@@ -41,7 +41,7 @@ class About extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            "The IoT Data app is designed to give you the latest information on all the critical data to run your business efficient and effectively. Improve your business by identifying issues before they become a problem. The data history can be viewed by selecting the calendar at the top bar in each category and selecting the date range.",
+            "The Telematics Solution app is designed to give you the latest information on all the critical data to run your business efficient and effectively. Improve your business by identifying issues before they become a problem. The data history can be viewed by selecting the calendar at the top bar in each category and selecting the date range.",
             style: TextStyle(fontSize: 18, letterSpacing: 1),
           )
         ],

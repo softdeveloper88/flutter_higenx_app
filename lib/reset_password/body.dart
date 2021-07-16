@@ -54,7 +54,7 @@ class _BodyState extends State<Body> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "IoT",
+                    "Telematics",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
