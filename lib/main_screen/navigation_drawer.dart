@@ -21,7 +21,7 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
-  final appTitle = 'IoT Data';
+  final appTitle = 'IoT Solution';
 
   @override
   Widget build(BuildContext context) {
