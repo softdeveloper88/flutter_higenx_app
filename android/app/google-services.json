@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:95703669218:android:55f5a1aa66c043971681bb",
+        "mobilesdk_app_id": "1:95703669218:android:e14c3d683ed8b9d11681bb",
         "android_client_info": {
-          "package_name": "com.unifiedtnc.iot_solution"
+          "package_name": "com.unifiedtnc.iotsolution"
         }
       },
       "oauth_client": [

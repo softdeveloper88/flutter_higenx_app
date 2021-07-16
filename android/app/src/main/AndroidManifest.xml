@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.unifiedtnc.iot_solution">
+    package="com.unifiedtnc.iotsolution">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -23,7 +23,7 @@
         <meta-data android:name="io.flutter.network-policy"
             android:resource="@xml/network_security_config"/>
         <activity
-            android:name="com.unifiedtnc.iot_solution.MainActivity"
+            android:name="com.unifiedtnc.iotsolution.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
