@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "95703669218",
+    "project_id": "iot-solution-flutterapp",
+    "storage_bucket": "iot-solution-flutterapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95703669218:android:55f5a1aa66c043971681bb",
+        "android_client_info": {
+          "package_name": "com.unifiedtnc.iot_solution"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95703669218-1p9jl002chp3a065rhaqcvamr9l2mqsc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBReMI4KA9S0IVTrB34sswYBXCqTn2T0lI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95703669218-1p9jl002chp3a065rhaqcvamr9l2mqsc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
