@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../constants.dart';
 import 'background.dart';
 
@@ -28,15 +28,16 @@ class Body extends StatefulWidget {
 }
 
 bool _isRembemerMe = false;
-class _BodyState extends State<Body> {
 
+class _BodyState extends State<Body> {
   @override
   void initState() {
     _passwordVisible = false;
-  _isRembemerMe=Globle.isRembemerMe;
+    _isRembemerMe = Globle.isRembemerMe;
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     ProgressDialog pr = ProgressDialog(context);
@@ -87,9 +88,8 @@ class _BodyState extends State<Body> {
             textSection(),
             RoundedButton(
               text: "Login",
-              press: () {
+              press: () async {
                 // emailController.text == "" || passwordController.text == "" ? null : () {
-                setState(() {
                   if (emailController.text == "" ||
                       passwordController.text == "") {
                     Fluttertoast.showToast(
@@ -102,10 +102,32 @@ class _BodyState extends State<Body> {
                         fontSize: 16.0);
                   } else {
                     //For normal dialog
-                    pr.show();
-                    signIn(emailController.text, passwordController.text, pr);
+                    try {
+                        final user = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                            email: emailController.text,
+                            password: passwordController.text).then((user) {
+                          if (user.isEmailVerified) {
+                            pr.show();
+                            signIn(emailController.text, passwordController.text,
+                                pr);
+                          }else{
+                            Fluttertoast.showToast(
+                                msg: "Please Verify your email first check email inbox",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.blue,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                        });
+
+                    } catch (e) {
+                      print(e);
+                    }
                   }
-                });
+
               },
             ),
             SizedBox(height: size.height * 0.03),
@@ -142,8 +164,8 @@ class _BodyState extends State<Body> {
         Globle.userId = data[0]['user_id'];
         Globle.name = data[0]['name'];
         Globle.email = data[0]['email'];
-        graphData(data[0]['user_id'] as String,pr);
-
+        Globle.password = data[0]['password'];
+        graphData(data[0]['user_id'] as String, pr);
       }
     } else {
       Fluttertoast.showToast(
@@ -159,23 +181,27 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void graphData(String uuid, ProgressDialog pr,) async {
+  void graphData(
+    String uuid,
+    ProgressDialog pr,
+  ) async {
     // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     // Map data = {'user_id': uuid};
     var jsonResponse;
-    var response = await http.get(Uri.parse(Globle.getGraph + "?user_id=" + uuid));
+    var response =
+        await http.get(Uri.parse(Globle.getGraph + "?user_id=" + uuid));
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       if (jsonResponse != null) {
         Map<String, dynamic> map = json.decode(response.body);
         Future.delayed(Duration(seconds: 2)).then((value) {
           pr.hide().whenComplete(() async {
-            if(_isRembemerMe){
+            if (_isRembemerMe) {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setBool('check', _isRembemerMe);
               prefs.setString('email', emailController.text);
               prefs.setString('password', passwordController.text);
-            }else{
+            } else {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setString('email', "");
               prefs.setString('password', "");
@@ -209,7 +235,8 @@ class _BodyState extends State<Body> {
       }
     }
   }
-  // Container buttonSection(BuildContext context) {
+
+// Container buttonSection(BuildContext context) {
 //   return Container(
 //     width: MediaQuery.of(context).size.width,
 //     height: 40.0,
@@ -232,10 +259,13 @@ class _BodyState extends State<Body> {
 //     ),
 //   );
 // }
-  final TextEditingController emailController = new TextEditingController(text: Globle.email);
-  final TextEditingController passwordController = new TextEditingController(text: Globle.password);
+  final TextEditingController emailController =
+      new TextEditingController(text: Globle.email);
+  final TextEditingController passwordController =
+      new TextEditingController(text: Globle.password);
   bool _passwordVisible = false;
   String email;
+
   Container textSection() {
     return Container(
       alignment: Alignment.center,
@@ -281,10 +311,10 @@ class _BodyState extends State<Body> {
           CheckboxListTile(
             checkColor: Theme.of(context).primaryColor,
             activeColor: kPrimaryLightColor1,
-            value: _isRembemerMe,
+            value: _isRembemerMe??false,
             onChanged: (value) {
               setState(() {
-                _isRembemerMe=value;
+                _isRembemerMe = value;
               });
             },
             title: Text("Remember me"),
@@ -295,20 +325,19 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Future<void> isRemember(bool isRememberMe) async {
-  //   if(isRememberMe){
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     prefs.setBool('check', isRememberMe);
-  //     prefs.setString('email', emailController.text);
-  //     prefs.setString('password', passwordController.text);
-  //   }else{
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     prefs.setString('email', "");
-  //     prefs.setString('password', "");
-  //     prefs.setBool('check', isRememberMe);
-  //   }
-  //
-  // }
-
+// Future<void> isRemember(bool isRememberMe) async {
+//   if(isRememberMe){
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     prefs.setBool('check', isRememberMe);
+//     prefs.setString('email', emailController.text);
+//     prefs.setString('password', passwordController.text);
+//   }else{
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     prefs.setString('email', "");
+//     prefs.setString('password', "");
+//     prefs.setBool('check', isRememberMe);
+//   }
+//
+// }
 
 }

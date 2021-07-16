@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_higenx_app/Screens/Login/login_screen.dart';
 import 'package:flutter_higenx_app/Screens/Signup/components/background.dart';
@@ -60,7 +61,7 @@ class _BodyState extends State<Body> {
                         color: Colors.blue),
                   ),
                   Text(
-                    " Data",
+                    " Solution",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
@@ -77,7 +78,7 @@ class _BodyState extends State<Body> {
                   _formKey.currentState.save();
                   setState(() {
                     pr.show();
-                    resetPassword(_password, pr);
+                    _changePassword(Globle.password,_password,pr);
                     // signUp(nameController.text.toString(),emailController.text.toString(),passwordController.text.toString());
                   });
                 }
@@ -231,5 +232,20 @@ class _BodyState extends State<Body> {
   void initState() {
     _passwordVisible = false;
     _passwordVisible2 = false;
+  }
+
+  void _changePassword(String currentPassword, String newPassword, ProgressDialog pr) async {
+      await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: Globle.email, password: currentPassword)
+        .then((user) {
+      FirebaseAuth.instance.currentUser().then((value) {
+        value.updatePassword(newPassword).then((value) {
+          resetPassword(newPassword, pr);
+
+
+        });
+      });
+    });
   }
 }
